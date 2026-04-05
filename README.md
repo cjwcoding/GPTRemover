@@ -64,10 +64,34 @@ chatgpt-migrator --generate-bookmarklet --bookmarklet-out "./bookmarklet_exporte
 - `bookmarklet_exporter.js`
 - `bookmarklet_exporter.bookmarklet.txt`（可直接粘贴到浏览器书签 URL）
 
-2. 在浏览器里创建书签（URL 填 `*.bookmarklet.txt` 的整行内容）。
-3. 建议打开目标项目页（如 `https://chatgpt.com/g/.../project`）且处于已登录状态，再点击书签。  
-   现在项目页为严格模式：只导出当前项目侧栏可见会话（`scope_mode=project_dom_only_strict`），不会回退混入全局会话。
-4. 用下载到的 JSON 再执行迁移。迁移阶段会生成每个会话的 `session.md` 与 `session.html`。如果有多个导出，重复写多个 `--export`：
+2. 在浏览器创建书签并执行（Edge 示例）：
+
+- 步骤1：点击浏览器右上角菜单，进入“收藏夹”。
+![步骤1：打开收藏夹菜单](README_images/step1_open_favorites_menu.png)
+
+- 步骤2：名称可写 `ChatGPT`，URL 粘贴 `bookmarklet_exporter.bookmarklet.txt` 的整行内容。
+![步骤2：编辑收藏夹并填写 URL](README_images/step2_edit_favorite_dialog.png)
+
+- 步骤3：打开目标页面，点击收藏夹，点击刚刚新建的标签（等待自动抓取下载完毕，会有弹窗提醒）。
+![步骤3：打开目标页面，选择刚刚新建的标签](README_images/step3_choose_folder.png)
+
+3. 选择导出范围（注意）：
+
+| 打开页面 | 导出内容 | 适用场景 |
+| --- | --- | --- |
+| `https://chatgpt.com/g/.../project` | 仅当前 project 的 sessions（`scope_mode=project_dom_only_strict`） | 迁移某个具体项目 |
+| `https://chatgpt.com`（非项目页） | 全局会话（不含 project 内会话） | 迁移普通/历史全局会话 |
+
+- **项目会话导出**  
+  先打开具体项目页（如 `https://chatgpt.com/g/.../project`），再点击书签。  
+  结果只包含该项目侧栏可见会话，不会混入全局。
+- **全局会话导出**  
+  先打开 `https://chatgpt.com` 首页（非项目页），再点击书签。  
+  结果为全局会话，不包含 project 内会话。
+
+4. 导出后执行迁移（可重复 `--export` 合并多个 JSON）：
+
+建议至少导出两份 JSON（全局 + 每个项目各一份），然后合并迁移。迁移阶段会生成每个会话的 `session.md` 与 `session.html`。
 
 ```bash
 chatgpt-migrator \
