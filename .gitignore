@@ -1,0 +1,16 @@
+# Ignore everything by default
+*
+
+# Keep directory traversal enabled so explicit un-ignores work
+!*/
+
+# Keep repository essentials
+!.gitignore
+!README.md
+!pyproject.toml
+
+# Keep source code
+!src/
+!src/**
+!tests/
+!tests/**
